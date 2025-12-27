@@ -63,6 +63,11 @@ public class MatchingService {
 
     private Set<String> parseJobSkills(String skills) {
         Set<String> set = new HashSet<>();
+
+        if (skills == null || skills.trim().isEmpty()) {
+            return set;
+        }
+
         for (String skill : skills.split(",")) {
             set.add(skill.trim().toLowerCase());
         }
@@ -80,6 +85,9 @@ public class MatchingService {
     }
 
     private double calculateExperienceScore(int required, int actual) {
+        if (required <= 0) {
+            return 100;
+        }
         if (actual >= required) {
             return 100;
         }
@@ -87,7 +95,8 @@ public class MatchingService {
     }
 
     private String generateSummary(Set<String> candidateSkills, Set<String> jobSkills) {
-        candidateSkills.retainAll(jobSkills);
-        return "Matched skills: " + candidateSkills;
+        Set<String> matched = new HashSet<>(candidateSkills);
+        matched.retainAll(jobSkills);
+        return "Matched skills: " + matched;
     }
 }

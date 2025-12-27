@@ -1,4 +1,5 @@
 package com.hiresense.controller;
+
 import com.hiresense.repository.MatchResultRepository;
 import com.hiresense.service.MatchingService;
 import org.springframework.http.ResponseEntity;
@@ -20,13 +21,13 @@ public class MatchController {
     }
 
     @PostMapping("/job/{jobId}")
-    public ResponseEntity<String> matchJob(@PathVariable Long jobId) {
+    public ResponseEntity<String> runMatching(@PathVariable Long jobId) {
         matchingService.matchCandidatesToJob(jobId);
         return ResponseEntity.ok("Matching completed");
     }
 
     @GetMapping("/results/{jobId}")
-    public ResponseEntity<?> getResults(@PathVariable Long jobId) {
+    public ResponseEntity<?> getRankedResults(@PathVariable Long jobId) {
         return ResponseEntity.ok(
                 matchResultRepository.findByJobIdOrderByMatchScoreDesc(jobId)
         );
