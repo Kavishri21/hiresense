@@ -1,4 +1,5 @@
 package com.hiresense.service;
+import com.hiresense.dto.DashboardCandidateDTO;
 import com.hiresense.dto.JobDashboardDTO;
 import com.hiresense.model.MatchResult;
 import com.hiresense.repository.MatchResultRepository;
@@ -25,15 +26,27 @@ public class DashboardService {
         dto.setTotalCandidates(results.size());
 
         if (!results.isEmpty()) {
+
             double avgScore = results.stream()
                     .mapToDouble(MatchResult::getMatchScore)
                     .average()
                     .orElse(0.0);
 
             dto.setAverageMatchScore(avgScore);
-            dto.setTopCandidates(
-                    results.stream().limit(5).toList()
-            );
+
+            List<DashboardCandidateDTO> topCandidates =
+                    results.stream()
+                            .limit(5)
+                            .map(r -> new DashboardCandidateDTO(
+                                    r.getCandidate().getId(),
+                                    r.getCandidate().getName(),
+                                    r.getCandidate().getEmail(),
+                                    r.getMatchScore(),
+                                    r.getSummary()
+                            ))
+                            .toList();
+
+            dto.setTopCandidates(topCandidates);
         }
 
         return dto;

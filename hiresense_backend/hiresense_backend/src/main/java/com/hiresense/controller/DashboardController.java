@@ -1,4 +1,5 @@
 package com.hiresense.controller;
+
 import com.hiresense.dto.JobDashboardDTO;
 import com.hiresense.service.DashboardService;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +16,7 @@ public class DashboardController {
     }
 
     @GetMapping("/job/{jobId}")
-    public ResponseEntity<JobDashboardDTO> getJobDashboard(
+    public ResponseEntity<JobDashboardDTO> getDashboard(
             @PathVariable Long jobId
     ) {
         return ResponseEntity.ok(

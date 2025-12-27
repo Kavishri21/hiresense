@@ -6,7 +6,7 @@ public class JobDashboardDTO {
     private Long jobId;
     private int totalCandidates;
     private double averageMatchScore;
-    private List<?> topCandidates;
+    private List<DashboardCandidateDTO> topCandidates;
 
     public Long getJobId() {
         return jobId;
@@ -32,11 +32,11 @@ public class JobDashboardDTO {
         this.averageMatchScore = averageMatchScore;
     }
 
-    public List<?> getTopCandidates() {
+    public List<DashboardCandidateDTO> getTopCandidates() {
         return topCandidates;
     }
 
-    public void setTopCandidates(List<?> topCandidates) {
+    public void setTopCandidates(List<DashboardCandidateDTO> topCandidates) {
         this.topCandidates = topCandidates;
     }
 }
