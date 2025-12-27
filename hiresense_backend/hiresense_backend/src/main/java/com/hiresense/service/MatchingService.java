@@ -15,18 +15,22 @@ public class MatchingService {
     private final CandidateRepository candidateRepository;
     private final CandidateSkillRepository candidateSkillRepository;
     private final MatchResultRepository matchResultRepository;
+    private final EmailService emailService;
+
 
     public MatchingService(
-            JobRepository jobRepository,
-            CandidateRepository candidateRepository,
-            CandidateSkillRepository candidateSkillRepository,
-            MatchResultRepository matchResultRepository
-    ) {
-        this.jobRepository = jobRepository;
-        this.candidateRepository = candidateRepository;
-        this.candidateSkillRepository = candidateSkillRepository;
-        this.matchResultRepository = matchResultRepository;
-    }
+        JobRepository jobRepository,
+        CandidateRepository candidateRepository,
+        CandidateSkillRepository candidateSkillRepository,
+        MatchResultRepository matchResultRepository,
+        EmailService emailService
+) {
+    this.jobRepository = jobRepository;
+    this.candidateRepository = candidateRepository;
+    this.candidateSkillRepository = candidateSkillRepository;
+    this.matchResultRepository = matchResultRepository;
+    this.emailService = emailService;
+}
 
     public void matchCandidatesToJob(Long jobId) {
 
@@ -58,6 +62,13 @@ public class MatchingService {
             result.setSummary(generateSummary(candidateSkillSet, jobSkills));
 
             matchResultRepository.save(result);
+            if (finalScore >= 70) {
+                emailService.sendShortlistEmail(
+                        candidate.getEmail(),
+                        candidate.getName(),
+                        job.getJobTitle()
+                );
+            }
         }
     }
 
