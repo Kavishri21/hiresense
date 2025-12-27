@@ -27,13 +27,13 @@ public class ResumeController {
             @RequestParam("experience") int experience
     ) throws IOException {
 
-        String uploadDir = "uploads/";
+        String uploadDir = System.getProperty("user.dir") + "/uploads";
         File directory = new File(uploadDir);
         if (!directory.exists()) {
-            directory.mkdir();
+            directory.mkdirs();
         }
 
-        String filePath = uploadDir + file.getOriginalFilename();
+        String filePath = uploadDir + "/" + file.getOriginalFilename();
         file.transferTo(new File(filePath));
 
         Candidate candidate = new Candidate();
